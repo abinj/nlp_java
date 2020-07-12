@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 
-public class nlp {
+public class nlp_ner {
     public static void main(String[] args) {
         try (InputStream tokenStream =
                      new FileInputStream(new File("/home/abin/my_works/nlp/opennlp/en-token.bin"));
@@ -29,7 +29,5 @@ public class nlp {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
-
     }
 }
