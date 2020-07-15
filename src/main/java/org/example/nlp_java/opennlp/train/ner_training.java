@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collections;
 
 //Annotations should be provided for Named Entities in the training file using the below format.
@@ -57,5 +58,11 @@ public class ner_training {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Testing the model
+        TokenNameFinder nameFinder = new NameFinderME(nameFinderModel);
+        String[] testSentence = {"Alisa", "Fernandes", "is", "a", "tourist", "from", "Spain"};
+        Span[] names = nameFinder.find(testSentence);
+        Arrays.stream(names).forEach(System.out::println);
     }
 }
