@@ -1,15 +1,15 @@
 package org.example.nlp_java.opennlp.train;
 
 import opennlp.tools.namefind.*;
+import opennlp.tools.tokenize.TokenizerME;
+import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
+
 
 //Annotations should be provided for Named Entities in the training file using the below format.
 //<START:named_entitiy_type>Named Entity<END> remaining sentence.
@@ -60,9 +60,37 @@ public class ner_training {
         }
 
         // Testing the model
+        String testSentence = "So I called Julie , a friend who's still in contact with him.";
+        getTokens(nameFinderModel, testSentence
+                , "/home/abin/my_works/nlp/opennlp/en-token.bin");
+    }
+
+    public static Span[] getTokens(TokenNameFinderModel nameFinderModel, String sentence, String tokenizerPath) {
         TokenNameFinder nameFinder = new NameFinderME(nameFinderModel);
-        String[] testSentence = {"Alisa", "Fernandes", "is", "a", "tourist", "from", "Spain"};
-        Span[] names = nameFinder.find(testSentence);
-        Arrays.stream(names).forEach(System.out::println);
+        InputStream tokenStream = null;
+        Span[] spans = null;
+        try {
+            tokenStream = new FileInputStream(new File(tokenizerPath));
+            TokenizerModel tm = new TokenizerModel(tokenStream);
+            TokenizerME tokenizerME = new TokenizerME(tm);
+            String[] tokens = tokenizerME.tokenize(sentence);
+            spans = nameFinder.find(tokens);
+            printResult(spans, tokens);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return spans;
+    }
+
+    public static void printResult(Span[] names, String[] tokens) {
+        Arrays.stream(names).forEach((name)->{
+            String personName="";
+            for(int i=name.getStart();i<name.getEnd();i++){
+                personName+=tokens[i]+" ";
+            }
+            System.out.println(name.getType()+" : "+personName+"\t [probability="+name.getProb()+"]");
+        });
     }
 }
