@@ -10,12 +10,11 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-public class nlp_pipeline {
+public class NER_POS {
 
     public static void main(String[] args) {
         String text = "John smith is the lead actor in hollywood movie Sniper.";
 
-//        String modPath = "/home/abin/my_works/nlp/stanford-corenlp-full-2018-10-05/stanford-corenlp-3.9.2-models/edu/stanford/nlp/models/";
         // Set up pipeline properties
         Properties prop = new Properties();
         try {
@@ -26,11 +25,6 @@ public class nlp_pipeline {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        String[] englishArgs = new String[]{"-file", "sample-eng", "-outputFormat", "text", "-props", "eng.properties"};
-
-//        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse");
-//        props.setProperty("coref.algorithm", "neural");
 
         //build pipeline
         StanfordCoreNLP pipeline = new StanfordCoreNLP(prop);
