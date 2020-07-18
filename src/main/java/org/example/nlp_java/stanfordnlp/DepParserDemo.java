@@ -44,15 +44,21 @@ public class DepParserDemo {
             sg = sent.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
             log.info(IOUtils.eolChar + sg.toString(SemanticGraph.OutputFormat.LIST));
         }
-        List<SemanticGraphEdge> edges = sg.edgeListSorted();
+
         System.out.println("Test");
         String indexWord = "Sniper";
+        List<String> connections = getDependentWords(sg, indexWord);
+        System.out.println(connections.toString());
+    }
+
+    public static List<String> getDependentWords(SemanticGraph sg, String indexWord) {
         List<String> connections = new ArrayList<>();
+        List<SemanticGraphEdge> edges = sg.edgeListSorted();
         for (SemanticGraphEdge edge : edges) {
             if (edge.getGovernor().word().equals(indexWord)) {
                 connections.add(edge.getDependent().word());
             }
         }
-        System.out.println(connections.toString());
+        return connections;
     }
 }
