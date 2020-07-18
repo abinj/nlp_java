@@ -2,7 +2,6 @@ package org.example.nlp_java.stanfordnlp;
 
 import edu.stanford.nlp.io.IOUtils;
 import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.AnnotationPipeline;
@@ -14,16 +13,13 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.PropertiesUtils;
 import edu.stanford.nlp.util.logging.Redwood;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
-public class DepParserDemo_1 {
+public class DepParserDemo {
     /** A logger for this class */
-    private static final Redwood.RedwoodChannels log = Redwood.channels(DepParserDemo_1.class);
+    private static final Redwood.RedwoodChannels log = Redwood.channels(DepParserDemo.class);
 
-    private DepParserDemo_1() {} // static main method only
+    private DepParserDemo() {} // static main method only
 
     public static void main(String[] args) {
 
@@ -48,5 +44,15 @@ public class DepParserDemo_1 {
             sg = sent.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
             log.info(IOUtils.eolChar + sg.toString(SemanticGraph.OutputFormat.LIST));
         }
+        List<SemanticGraphEdge> edges = sg.edgeListSorted();
+        System.out.println("Test");
+        String indexWord = "Sniper";
+        List<String> connections = new ArrayList<>();
+        for (SemanticGraphEdge edge : edges) {
+            if (edge.getGovernor().word().equals(indexWord)) {
+                connections.add(edge.getDependent().word());
+            }
+        }
+        System.out.println(connections.toString());
     }
 }
