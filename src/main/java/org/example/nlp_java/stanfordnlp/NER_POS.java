@@ -1,5 +1,6 @@
 package org.example.nlp_java.stanfordnlp;
 
+import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreEntityMention;
 import edu.stanford.nlp.pipeline.CoreSentence;
@@ -26,10 +27,11 @@ public class NER_POS {
             e.printStackTrace();
         }
 
-        //build pipeline
+        //build pipeline using annotators given in the "annotators" property
         StanfordCoreNLP pipeline = new StanfordCoreNLP(prop);
 
         CoreDocument document = new CoreDocument(text);
+        // To run all annotators in the text
         pipeline.annotate(document);
 
         // List all the part-of-speech tags for the sentence

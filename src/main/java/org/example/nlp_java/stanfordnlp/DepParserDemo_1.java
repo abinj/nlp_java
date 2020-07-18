@@ -2,17 +2,22 @@ package org.example.nlp_java.stanfordnlp;
 
 import edu.stanford.nlp.io.IOUtils;
 import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.AnnotationPipeline;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
+import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.PropertiesUtils;
 import edu.stanford.nlp.util.logging.Redwood;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 public class DepParserDemo_1 {
     /** A logger for this class */
@@ -38,11 +43,10 @@ public class DepParserDemo_1 {
 
         AnnotationPipeline pipeline = new StanfordCoreNLP(props);
         pipeline.annotate(ann);
-
+        SemanticGraph sg = null;
         for (CoreMap sent : ann.get(CoreAnnotations.SentencesAnnotation.class)) {
-            SemanticGraph sg = sent.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
+            sg = sent.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
             log.info(IOUtils.eolChar + sg.toString(SemanticGraph.OutputFormat.LIST));
         }
-
     }
 }
